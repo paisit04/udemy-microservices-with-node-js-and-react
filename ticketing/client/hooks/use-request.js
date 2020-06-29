@@ -1,13 +1,13 @@
-import axois from 'axios';
-import { useState } from 'react';
+import axois from "axios";
+import { useState } from "react";
 
-export default ({url, method, body, onSuccess}) => {
+export default ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState(null);
 
-  const doRequest = async () => {
+  const doRequest = async (props = {}) => {
     try {
       setErrors(null);
-      const response = await axois[method](url, body);
+      const response = await axois[method](url, { ...body, ...props });
 
       if (onSuccess) {
         onSuccess(response.data);
@@ -15,7 +15,6 @@ export default ({url, method, body, onSuccess}) => {
 
       return response.data;
     } catch (err) {
-
       setErrors(
         <div className="alert alert-danger">
           <h4>Ooops....</h4>
@@ -27,7 +26,7 @@ export default ({url, method, body, onSuccess}) => {
         </div>
       );
     }
-  }
+  };
 
-  return {doRequest, errors};
+  return { doRequest, errors };
 };
